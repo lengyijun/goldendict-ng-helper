@@ -158,7 +158,7 @@ pub fn query(word: &str, base_dir: &Path) -> Result<PathBuf> {
 }
 
 pub fn dictionary_dir() -> PathBuf {
-    let path = dirs::data_local_dir().unwrap().join("mdict-cli-rs");
+    let path = dirs::home_dir().unwrap().join(".goldendict");
     if !path.exists() {
         create_dir(&path)
             .with_context(|| format!("Failed to create directory {:?}", path))
@@ -172,7 +172,7 @@ pub fn db_path() -> PathBuf {
 }
 
 pub fn log_dir() -> PathBuf {
-    let path = dirs::cache_dir().unwrap().join("mdict-cli-rs");
+    let path = dirs::cache_dir().unwrap().join("goldendict");
     if !path.exists() {
         create_dir(&path)
             .with_context(|| format!("Failed to create directory {:?}", path))
