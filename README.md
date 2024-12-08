@@ -1,39 +1,27 @@
-# mdict-cli-rs
+# goldendict-helper
 
-## Features
-1. support stardict and mdict
-2. anki mode
+Usally we use goldendict-ng with anki : https://xiaoyifang.github.io/goldendict-ng/topic_anki/
 
-## Get start
-1. put the mdict or stardict under `~/.local/share/mdict-cli-rs` 
 
-    `mdict-cli-rs` will search dictionaries recursively
+This project 
 
-    mdict only support v1,v2
+- pros
+        - 避免了 anki 中的 bug
+                - https://github.com/xiaoyifang/goldendict-ng/discussions/1885
+        - 不用打开 anki-connect
+                - 相当于 headless anki
+- cons
+        - 和 anki 一样, 依旧需要鼠标
+        - theme 不够好看
 
-2. install [carbonyl](https://github.com/fathyb/carbonyl)
-3. `cargo r -- awesome`
+## Install
 
-### Search
-[![asciicast](https://asciinema.org/a/684675.svg)](https://asciinema.org/a/684675)
-
-### Review
-[![asciicast](https://asciinema.org/a/687030.svg)](https://asciinema.org/a/687030)
+```
+cargo install --path .
+```
 
 ## Usage
+1. Start goldendict-ng
 
-```
-# search word
-mdict-cli-rs <word>
+2. `review`
 
-# anki-like review mode
-# you can also open http://127.0.0.1:3333 in browser manually
-mdict-cli-rs anki
-
-mdict-cli-rs --list-dicts
-mdict-cli-rs --show-path
-```
-
-### blog in Chinese
-
-https://rustcc.cn/article?id=f1875505-af4e-4043-ba92-f95a2e7e01a1
