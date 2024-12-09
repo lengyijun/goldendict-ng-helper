@@ -83,19 +83,19 @@ fn show_answer_cb(s: &mut Cursive) {
             }))
             .child(TextView::new(" ".repeat(100)))
             .child(Button::new("Again", move |s| {
-                update_and_review_next(s, word_1.clone(), Rating::Again);
+                update_and_review_next(s, &word_1, Rating::Again);
             }))
             .child(TextView::new(" "))
             .child(Button::new("Hard", move |s| {
-                update_and_review_next(s, word_2.clone(), Rating::Hard);
+                update_and_review_next(s, &word_2, Rating::Hard);
             }))
             .child(TextView::new(" "))
             .child(Button::new("Good", move |s| {
-                update_and_review_next(s, word_3.clone(), Rating::Good);
+                update_and_review_next(s, &word_3, Rating::Good);
             }))
             .child(TextView::new(" "))
             .child(Button::new("Easy", move |s| {
-                update_and_review_next(s, word_4.clone(), Rating::Easy);
+                update_and_review_next(s, &word_4, Rating::Easy);
             }))
             .child(TextView::new(" ".repeat(91)))
             .child(Button::new("Quit", |s| {
@@ -122,9 +122,9 @@ fn review_next(s: &mut Cursive) {
     }
 }
 
-fn update_and_review_next(s: &mut Cursive, word: String, rating: Rating) {
+fn update_and_review_next(s: &mut Cursive, word: &str, rating: Rating) {
     s.with_user_data(|history: &mut SQLiteHistory| {
-        let _ = block_on(history.update(&word, rating));
+        let _ = block_on(history.update(word, rating));
     });
     review_next(s);
 }
