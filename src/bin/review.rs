@@ -13,6 +13,8 @@ use rs_fsrs::Rating;
 use std::process::Command;
 use urlencoding::encode;
 
+static OCEAN: &str = "ocean";
+
 #[tokio::main]
 async fn main() {
     let mut siv = Cursive::default();
@@ -59,7 +61,7 @@ async fn main() {
             .title(word)
             .content(show_answer_layout())
             .h_align(cursive::align::HAlign::Center)
-            .with_name("ocean"),
+            .with_name(OCEAN),
         // .padding(Margins::lrtb(10, 10, 0, 35))
     );
 
@@ -67,7 +69,7 @@ async fn main() {
 }
 
 fn show_answer_cb(s: &mut Cursive) {
-    s.call_on_name("ocean", |view: &mut Dialog| {
+    s.call_on_name(OCEAN, |view: &mut Dialog| {
         let word = view.get_title().to_owned();
         let url = format!("goldendict://{}", encode(&word));
         let _ = Command::new("xdg-open").arg(&url).status();
@@ -111,7 +113,7 @@ fn review_next(s: &mut Cursive) {
         s.with_user_data(|history: &mut SQLiteHistory| block_on(history.next_to_review()));
     match next_word {
         Some(Ok(next_word)) => {
-            s.call_on_name("ocean", |view: &mut Dialog| {
+            s.call_on_name(OCEAN, |view: &mut Dialog| {
                 view.set_title(next_word);
                 view.set_content(show_answer_layout());
             });
