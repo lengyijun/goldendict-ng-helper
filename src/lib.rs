@@ -1,5 +1,3 @@
-#![feature(async_closure)]
-
 pub mod fsrs;
 pub mod spaced_repetition;
 pub mod utils;
