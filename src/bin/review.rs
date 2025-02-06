@@ -12,11 +12,14 @@ use goldendict_ng_helper::spaced_repetition::SpacedRepetition;
 use rs_fsrs::Rating;
 use shadow_rs::shadow;
 use std::process::Command;
+use std::sync::Mutex;
 use urlencoding::encode;
 
 shadow!(build);
 
 static OCEAN: &str = "ocean";
+
+static REVIEW_WORDS: Mutex<Vec<String>> = Mutex::new(Vec::new());
 
 #[tokio::main]
 async fn main() {
@@ -76,6 +79,8 @@ async fn main() {
     );
 
     siv.run();
+
+    println!("{:?}", REVIEW_WORDS.lock().unwrap());
 }
 
 fn show_answer_cb(s: &mut Cursive) {
@@ -118,6 +123,7 @@ fn show_answer_cb(s: &mut Cursive) {
                 }
             }))
             .child(Button::new("Quit", |s| {
+                s.with_user_data(update_reviewed_words);
                 s.quit();
             }));
 
@@ -157,6 +163,18 @@ fn show_answer_layout() -> LinearLayout {
         .child(Button::new("Show answer", show_answer_cb))
         .child(TextView::new(" ".repeat(100)))
         .child(Button::new("Quit", |s| {
+            s.with_user_data(update_reviewed_words);
             s.quit();
         }))
+}
+
+fn update_reviewed_words(history: &mut SQLiteHistory) {
+    let v = block_on(history.reviewed_words());
+    match v {
+        Ok(v) => {
+            let mut x = REVIEW_WORDS.lock().unwrap();
+            *x = v;
+        }
+        Err(_) => {}
+    }
 }

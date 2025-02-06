@@ -195,6 +195,18 @@ COMMIT;
 
         Ok(())
     }
+
+    pub async fn reviewed_words(&mut self) -> Result<Vec<String>> {
+        let reviewed_words = sqlx::query("SELECT word FROM fsrs WHERE session_id = $1;")
+            .bind(self.session_id)
+            .fetch_all(&self.conn)
+            .await?
+            .into_iter()
+            .map(|sqlite_row| sqlite_row.get(0))
+            .collect();
+
+        Ok(reviewed_words)
+    }
 }
 
 async fn conn(path: &Path) -> sqlx::Result<SqlitePool> {
