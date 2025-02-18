@@ -7,7 +7,8 @@ use std::fs::create_dir;
 use std::path::PathBuf;
 
 pub fn dictionary_dir() -> PathBuf {
-    let path = dirs::home_dir().unwrap().join(".goldendict");
+    // ~/.local/share/goldendict
+    let path = dirs::data_local_dir().unwrap().join("goldendict");
     if !path.exists() {
         create_dir(&path)
             .with_context(|| format!("Failed to create directory {:?}", path))
